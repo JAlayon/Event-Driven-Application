@@ -1,6 +1,6 @@
 package com.alayon.microservices.demo.twitter.to.kafka.service;
 
-import com.alayon.microservices.demo.config.TwitterToKafkaServiceConfigData;
+import com.alayon.microservices.demo.twitter.to.kafka.service.init.StreamInitializer;
 import com.alayon.microservices.demo.twitter.to.kafka.service.runner.StreamRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,21 +9,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.Arrays;
-
 @SpringBootApplication
 @ComponentScan(basePackages = "com.alayon.microservices.demo")
 public class TwitterToKafkaServiceApplication implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(TwitterToKafkaServiceApplication.class);
 
-    private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
     private final StreamRunner streamRunner;
+    private final StreamInitializer streamInitializer;
 
-    public TwitterToKafkaServiceApplication(final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData,
-                                            final StreamRunner streamRunner) {
-        this.twitterToKafkaServiceConfigData = twitterToKafkaServiceConfigData;
+    public TwitterToKafkaServiceApplication(final StreamRunner streamRunner,
+                                            final StreamInitializer streamInitializer) {
         this.streamRunner = streamRunner;
+        this.streamInitializer = streamInitializer;
     }
 
     public static void main(String[] args) {
@@ -33,8 +31,7 @@ public class TwitterToKafkaServiceApplication implements CommandLineRunner {
     @Override
     public void run(final String... args) throws Exception {
         log.info("App starts...");
-        log.info(Arrays.toString(twitterToKafkaServiceConfigData.getTwitterKeywords().toArray(new String[0])));
-        log.info(twitterToKafkaServiceConfigData.getWelcomeMessage());
+        streamInitializer.init();
         streamRunner.start();
     }
 }
