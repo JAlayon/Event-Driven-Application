@@ -1,4 +1,4 @@
-package com.alayon.microservices.demo.twitter.to.kafka.service.config;
+package com.alayon.microservices.demo.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

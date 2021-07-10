@@ -1,6 +1,6 @@
 package com.alayon.microservices.demo.twitter.to.kafka.service.runner.impl;
 
-import com.alayon.microservices.demo.twitter.to.kafka.service.config.TwitterToKafkaServiceConfigData;
+import com.alayon.microservices.demo.config.TwitterToKafkaServiceConfigData;
 import com.alayon.microservices.demo.twitter.to.kafka.service.exception.TwitterToKafkaServiceException;
 import com.alayon.microservices.demo.twitter.to.kafka.service.listener.TwitterKafkaStatusListener;
 import com.alayon.microservices.demo.twitter.to.kafka.service.runner.StreamRunner;
