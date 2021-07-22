@@ -11,14 +11,13 @@ spring:
           uri: https://github.com/JAlayon/spring-cloud-config-server-repository
           default-label: main
           username: JAlayon
-          password: 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
+          password: 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
           clone-on-start: true
     fail-fast: true
   security:
     user:
       name: spring_cloud_user
-      password: springCloud_Pwd!
-
+      password: springCloudPassword!
 logging:
   level:
     ROOT: INFO
