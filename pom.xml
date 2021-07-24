@@ -11,6 +11,8 @@
 		<module>kafka/kafka-producer</module>
 		<module>common-config</module>
 		<module>config-server</module>
+		<module>kafka/kafka-consumer</module>
+		<module>kafka-to-elastic-service</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -81,6 +83,13 @@
 			<dependency>
 				<groupId>com.alayon.microservices.demo</groupId>
 				<artifactId>kafka-producer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- LOCAL -->
+			<dependency>
+				<groupId>com.alayon.microservices.demo</groupId>
+				<artifactId>kafka-consumer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

@@ -20,6 +20,10 @@ public class TwitterKafkaProducer implements KafkaProducer<Long, TwitterAvroMode
 
     private KafkaTemplate<Long, TwitterAvroModel> kafkaTemplate;
 
+    public TwitterKafkaProducer(final KafkaTemplate<Long, TwitterAvroModel> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
     @Override
     public void send(final String topicName, final Long key, final TwitterAvroModel message) {
         log.info("Sending message='{}' to topic='{}'", message, topicName);
