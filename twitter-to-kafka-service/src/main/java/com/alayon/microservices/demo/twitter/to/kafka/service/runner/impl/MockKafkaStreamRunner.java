@@ -14,7 +14,6 @@ import twitter4j.TwitterObjectFactory;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
@@ -51,7 +50,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
     };
 
     private static final String TWEET_AS_RAW_JSON = "{" +
-            "\"createdAt\":\"{0}\","+
+            "\"created_at\":\"{0}\","+
             "\"id\":\"{1}\","+
             "\"text\":\"{2}\","+
             "\"user\":{\"id\":\"{3}\"}"+
@@ -105,7 +104,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
 
     private String getFormattedTweet(final String[] keywords, final Integer minTweetLength, final Integer maxTweetLength) {
         var params = new String[]{
-                ZonedDateTime.now().format(DateTimeFormatter.ofPattern(TWITTER_STATUS_DATE_FORMAT, Locale.ENGLISH)),
+                ZonedDateTime.now().format(DateTimeFormatter.ofPattern(TWITTER_STATUS_DATE_FORMAT)),
                 String.valueOf(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE)),
                 getRandomTweetContent(keywords, minTweetLength, maxTweetLength),
                 String.valueOf(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE))
