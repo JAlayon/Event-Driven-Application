@@ -1,8 +1,11 @@
 package com.alayon.microservices.demo.kafka.to.elastic.service.consumer.impl;
 
 import com.alayon.microservices.demo.config.KafkaConfigData;
+import com.alayon.microservices.demo.elastic.index.client.service.ElasticIndexClient;
+import com.alayon.microservices.demo.elastic.model.index.impl.TwitterIndexModel;
 import com.alayon.microservices.demo.kafka.admin.client.KafkaAdminClient;
 import com.alayon.microservices.demo.kafka.to.elastic.service.consumer.KafkaConsumer;
+import com.alayon.microservices.demo.kafka.to.elastic.service.transformer.AvroToElasticModelTransformer;
 import com.microservices.demo.kafka.avro.model.TwitterAvroModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +31,20 @@ public class TwitterKafkaConsumer implements KafkaConsumer<Long, TwitterAvroMode
 
     private final KafkaConfigData kafkaConfigData;
 
+    private final AvroToElasticModelTransformer avroToElasticModelTransformer;
+
+    private final ElasticIndexClient<TwitterIndexModel> elasticIndexClient;
 
     public TwitterKafkaConsumer(final KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry,
                                 final KafkaAdminClient kafkaAdminClient,
-                                final KafkaConfigData kafkaConfigData) {
+                                final KafkaConfigData kafkaConfigData,
+                                final AvroToElasticModelTransformer avroToElasticModelTransformer,
+                                final ElasticIndexClient<TwitterIndexModel> elasticIndexClient) {
         this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
         this.kafkaAdminClient = kafkaAdminClient;
         this.kafkaConfigData = kafkaConfigData;
+        this.avroToElasticModelTransformer = avroToElasticModelTransformer;
+        this.elasticIndexClient = elasticIndexClient;
     }
 
     @EventListener
@@ -53,7 +63,15 @@ public class TwitterKafkaConsumer implements KafkaConsumer<Long, TwitterAvroMode
     {
         log.info("{} number of message received with keys {}, partitions {} and offsets {}, " +
                  "Sending it to elastic: Thread id {}",
-                messages.size(), keys.toString(), partitions.toString(), offsets.toString(), Thread.currentThread().getId());
+                messages.size(),
+                keys.toString(),
+                partitions.toString(),
+                offsets.toString(),
+                Thread.currentThread().getId());
 
+        var twitterIndexModels = avroToElasticModelTransformer.getElasticModels(messages);
+        var documentIds = elasticIndexClient.save(twitterIndexModels);
+
+        log.info("Documents saved to elasticsearch with ids {}", documentIds.toArray());
     }
 }
