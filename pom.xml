@@ -17,7 +17,9 @@
 		<module>elastic/elastic-model</module>
 		<module>elastic/elastic-config</module>
 		<module>elastic/elastic-index-client</module>
-	</modules>
+        <module>elastic/elastic-query-client</module>
+        <module>elastic-query-service</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -109,6 +111,13 @@
 			<dependency>
 				<groupId>com.alayon.microservices.demo</groupId>
 				<artifactId>elastic-index-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- LOCAL -->
+			<dependency>
+				<groupId>com.alayon.microservices.demo</groupId>
+				<artifactId>elastic-query-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
