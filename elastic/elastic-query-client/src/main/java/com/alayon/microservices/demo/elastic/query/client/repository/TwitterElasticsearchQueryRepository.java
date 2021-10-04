@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TwitterElasticsearchQueryRepository extends ElasticsearchRepository<TwitterIndexModel,String> {
-    List<TwitterIndexModel> findByText(String text );
+    List<TwitterIndexModel> findByText(String text);
 }
