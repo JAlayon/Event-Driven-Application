@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>com.alayon.microservices.demo</groupId>
+            <artifactId>common-util</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alayon.microservices.demo</groupId>
             <artifactId>app-config-data</artifactId>
         </dependency>
 
