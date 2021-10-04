@@ -1,5 +1,6 @@
 package com.alayon.microservices.demo.elastic.query.client.service.impl;
 
+import com.alayon.microservices.demo.common.util.CollectionsUtil;
 import com.alayon.microservices.demo.elastic.model.index.impl.TwitterIndexModel;
 import com.alayon.microservices.demo.elastic.query.client.exception.ElasticQueryClientException;
 import com.alayon.microservices.demo.elastic.query.client.repository.TwitterElasticsearchQueryRepository;
@@ -10,8 +11,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Primary
 @Service
@@ -47,8 +46,9 @@ public class TwitterElasticRepositoryQueryClient implements ElasticQueryClient<T
     @Override
     public List<TwitterIndexModel> getAllIndexModels() {
         var iterable = repository.findAll();
-        var searchResult = StreamSupport.stream(iterable.spliterator(), false)
-                .collect(Collectors.toList());
+       /* var searchResult = StreamSupport.stream(iterable.spliterator(), false)
+                .collect(Collectors.toList());*/
+        var searchResult = CollectionsUtil.getInstance().getListFromIterable(iterable);
         log.info("{} number of documents retrieved successfully", searchResult.size());
         return searchResult;
     }
