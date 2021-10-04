@@ -1,5 +1,6 @@
 package com.alayon.microservices.demo.elastic.query.service.api;
 
+import com.alayon.microservices.demo.elastic.query.service.business.ElasticQueryService;
 import com.alayon.microservices.demo.elastic.query.service.model.ElasticQueryServiceRequestModel;
 import com.alayon.microservices.demo.elastic.query.service.model.ElasticQueryServiceResponseModel;
 import org.slf4j.Logger;
@@ -7,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RestController
@@ -16,28 +18,34 @@ public class ElasticDocumentController {
 
     private static final Logger log = LoggerFactory.getLogger(ElasticDocumentController.class);
 
+    private final ElasticQueryService elasticQueryService;
+
+    public ElasticDocumentController(final ElasticQueryService elasticQueryService) {
+        this.elasticQueryService = elasticQueryService;
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<ElasticQueryServiceResponseModel>>
     getAllDocuments(){
-        var response = new ArrayList<ElasticQueryServiceResponseModel>();
+        var response = elasticQueryService.getAllDocuments();
         log.info("Elasticsearch returned {} of documents", response.size());
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ElasticQueryServiceResponseModel>
-    getDocumentById(@PathVariable String id){
-        var response = ElasticQueryServiceResponseModel.builder()
-                                            .id(id)
-                                            .build();
+    getDocumentById(@PathVariable @NotEmpty String id){
+        var response = elasticQueryService.getDocumentById(id);
         log.info("Elasticsearch returned document with id {}", id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-document-by-text")
     public ResponseEntity<List<ElasticQueryServiceResponseModel>>
-    getDocumentByText(@RequestBody ElasticQueryServiceRequestModel request){
-        var response = new ArrayList<ElasticQueryServiceResponseModel>();
+    getDocumentByText(
+            @Valid
+            @RequestBody ElasticQueryServiceRequestModel request){
+        var response = elasticQueryService.getDocumentByText(request.getText());
         log.info("Elasticsearch returned {} of documents", response.size());
         return ResponseEntity.ok(response);
     }
