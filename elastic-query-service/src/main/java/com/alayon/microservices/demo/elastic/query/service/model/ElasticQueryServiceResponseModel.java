@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Builder
@@ -17,5 +17,5 @@ public class ElasticQueryServiceResponseModel extends RepresentationModel<Elasti
     private String id;
     private Long userId;
     private String text;
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 }
