@@ -20,7 +20,8 @@
         <module>elastic/elastic-query-client</module>
         <module>elastic-query-service</module>
 		<module>common-util</module>
-	</modules>
+        <module>elastic-query-web-client</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
