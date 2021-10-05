@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.net.BindException;
 import java.util.HashMap;
 
 @ControllerAdvice
@@ -52,7 +51,7 @@ public class ElasticQueryWebClientErrorHandler {
                 mapErrors.put(((FieldError) error).getField(), error.getDefaultMessage()));
         model.addAttribute("elasticQueryWebClientRequestModel", ElasticQueryWebClientRequestModel.builder().build());
         model.addAttribute("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
-        model.addAttribute("error_description", errors);
+        model.addAttribute("error_description", mapErrors);
         return "home";
     }
 
