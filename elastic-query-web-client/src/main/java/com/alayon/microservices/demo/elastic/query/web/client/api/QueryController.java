@@ -1,7 +1,7 @@
 package com.alayon.microservices.demo.elastic.query.web.client.api;
 
 import com.alayon.microservices.demo.elastic.query.web.client.model.ElasticQueryWebClientRequestModel;
-import com.alayon.microservices.demo.elastic.query.web.client.model.ElasticQueryWebClientResponseModel;
+import com.alayon.microservices.demo.elastic.query.web.client.service.ElasticQueryWebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 
 @Controller
 public class QueryController {
 
     private static final Logger log = LoggerFactory.getLogger(QueryController.class);
+
+    private final ElasticQueryWebClient elasticQueryWebClient;
+
+    public QueryController(final ElasticQueryWebClient elasticQueryWebClient) {
+        this.elasticQueryWebClient = elasticQueryWebClient;
+    }
 
     @GetMapping("")
     public String index(){
@@ -34,14 +39,8 @@ public class QueryController {
             @Valid ElasticQueryWebClientRequestModel requestModel,
                     Model model){
         log.info("Querying with text: {}", requestModel.getText());
-        var responseModels = new ArrayList<ElasticQueryWebClientResponseModel>();
-        responseModels.add(ElasticQueryWebClientResponseModel.builder()
-                                .id("1")
-                                .text(requestModel.getText())
-                                .build());
-
-        model.addAttribute("elasticQueryWebClientResponseModels",
-                responseModels);
+        var responseModels = elasticQueryWebClient.getDataByText(requestModel);
+        model.addAttribute("elasticQueryWebClientResponseModels", responseModels);
         model.addAttribute("searchText", requestModel.getText());
         model.addAttribute("elasticQueryWebClientRequestModel",
                 ElasticQueryWebClientRequestModel.builder().build());
