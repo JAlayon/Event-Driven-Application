@@ -98,7 +98,7 @@ public class ElasticDocumentController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
 
     })
-    @GetMapping("/get-document-by-text")
+    @PostMapping("/get-document-by-text")
     public ResponseEntity<List<ElasticQueryServiceResponseModel>>
     getDocumentByText(
             @Valid
