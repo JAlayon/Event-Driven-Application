@@ -3,6 +3,7 @@ package com.alayon.microservices.demo.elastic.query.web.client.config;
 import com.alayon.microservices.demo.config.ElasticQueryWebClientConfigData;
 import com.alayon.microservices.demo.config.UserConfigData;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
+@LoadBalancerClient(name = "elastic-query-service", configuration = ElasticQueryServiceInstanceListSupplierConfig.class)
 public class WebClientConfig {
 
     private final ElasticQueryWebClientConfigData.WebClient webClientConfigData;
