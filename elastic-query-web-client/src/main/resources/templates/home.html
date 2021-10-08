@@ -28,7 +28,6 @@
                         <tbody>
                         <tr th:each="elasticQueryWebClientResponseModel : ${elasticQueryWebClientResponseModels}">
                             <th scope="row" th:text="${elasticQueryWebClientResponseModel.id}"></th>
-                            <td th:text="${elasticQueryWebClientResponseModel.userId}"></td>
                             <td th:text="${elasticQueryWebClientResponseModel.text}"></td>
                             <td th:text="${elasticQueryWebClientResponseModel.createdAt}"></td>
                         </tr>
